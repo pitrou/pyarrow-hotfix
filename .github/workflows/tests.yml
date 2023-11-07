@@ -61,15 +61,17 @@ jobs:
           submodules: recursive
       # Use a recent Python version (>= 3.7) for building package.
       # The built wheel is version-agnostic.
-      #- name: Setup Python for build
-        #uses: actions/setup-python@v4
-        #with:
-          #python-version: 3.11
-      #- name: Build package
-        #shell: bash
-        #run: |
+      - name: Setup Python for build
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Build package
+        shell: bash
+        run: |
           #python -m pip install hatch
           #hatch build
+          python -m pip install build
+          python -m build
       # Switch to desired Python version for testing
       - name: Setup Python for test
         uses: actions/setup-python@v4
@@ -80,8 +82,7 @@ jobs:
         run: |
           python -V
           python -m pip install -U pip
-          python -m pip install .
-          #python -m pip install dist/*.whl
+          python -m pip install dist/*.whl
       - name: Install PyArrow
         shell: bash
         run: |
