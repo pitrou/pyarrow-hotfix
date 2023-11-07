@@ -19,12 +19,16 @@ Installation
 
 Use ``pip`` to install::
 
-   pip install pyarrow-hotfix
+   pip install pyarrow_hotfix
+
+.. note::
+   Both ``pyarrow-hotfix`` and ``pyarrow_hotfix`` are accepted and point to
+   the same package.
 
 Usage
 -----
 
-``pyarrow-hotfix`` must be imported in your application or library code for
+``pyarrow_hotfix`` must be imported in your application or library code for
 it to take effect::
 
    import pyarrow_hotfix
@@ -32,18 +36,18 @@ it to take effect::
 Supported versions
 ------------------
 
-``pyarrow-hotfix`` supports all Python versions starting from Python 3.5,
+``pyarrow_hotfix`` supports all Python versions starting from Python 3.5,
 and all PyArrow versions starting from 0.14.0.
 
 Dependencies
 ------------
 
-``pyarrow-hotfix`` is a pure Python package that does not have any explicit
+``pyarrow_hotfix`` is a pure Python package that does not have any explicit
 dependencies, and assumes you have installed ``pyarrow`` through other means
 (such as ``pip`` or ``conda``).
 
 License
 -------
 
-Like ``pyarrow``, ``pyarrow-hotfix`` is distributed under the terms of the
+Like ``pyarrow``, ``pyarrow_hotfix`` is distributed under the terms of the
 `Apache License, version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>`_.
