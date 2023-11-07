@@ -68,8 +68,6 @@ jobs:
       - name: Build package
         shell: bash
         run: |
-          #python -m pip install hatch
-          #hatch build
           python -m pip install build
           python -m build
       # Switch to desired Python version for testing
@@ -91,4 +89,4 @@ jobs:
         shell: bash
         run: |
           pip install pytest
-          python -m pytest -v --tb=native
+          python -m pytest -v -rs
