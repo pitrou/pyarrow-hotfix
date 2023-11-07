@@ -1,6 +1,6 @@
-
 import contextlib
 import os
+
 import pytest
 
 import pyarrow as pa
