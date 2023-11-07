@@ -21,9 +21,10 @@ def install():
             out = io.StringIO()
             pickletools.dis(serialized, out)
             raise RuntimeError(
-                f"forbidden deserialization of 'arrow.py_extension_type': "
-                f"storage_type = {storage_type}, serialized = {serialized}, "
-                f"pickle disassembly:\n{out.getvalue()}")
+                "forbidden deserialization of 'arrow.py_extension_type': "
+                "storage_type = %s, serialized = %r, "
+                "pickle disassembly:\n%s"
+                % (storage_type, serialized, out.getvalue()))
 
     if hasattr(pa, "unregister_extension_type"):
         # 0.15.0 <= PyArrow
