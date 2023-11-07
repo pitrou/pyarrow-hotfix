@@ -28,33 +28,37 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - pyarrow: 0.14.0
-            python: 3.5
-          - pyarrow: 0.14.0
-            python: 3.6
-          - pyarrow: 0.14.0
-            python: 3.7
-          - pyarrow: 0.14.1
-            python: 3.7
-          - pyarrow: 0.15.0
-            python: 3.7
-          - pyarrow: 1.0.0
-            python: 3.8
-          - pyarrow: 13.0.0
-            python: 3.11
-          - pyarrow: 14.0.0
-            python: 3.12
-          - pyarrow: 0.14.0
-            python: 3.5
+          - pyarrow: "0.14.0"
+            python: "3.5"
+          - pyarrow: "0.14.0"
+            python: "3.6"
+          - pyarrow: "0.14.0"
+            python: "3.7"
+          - pyarrow: "0.14.1"
+            python: "3.7"
+          - pyarrow: "0.15.0"
+            python: "3.7"
+          - pyarrow: "1.0.0"
+            python: "3.8"
+          - pyarrow: "5.0.0"
+            python: "3.9"
+          - pyarrow: "10.0.0"
+            python: "3.10"
+          - pyarrow: "13.0.0"
+            python: "3.11"
+          - pyarrow: "14.0.0"
+            python: "3.12"
+          - pyarrow: "0.14.0"
+            python: "3.5"
             image: windows-latest
-          - pyarrow: 14.0.0
-            python: 3.12
+          - pyarrow: "14.0.0"
+            python: "3.12"
             image: windows-latest
-          - pyarrow: 0.15.0
-            python: 3.7
+          - pyarrow: "0.15.0"
+            python: "3.7"
             image: macos-11
-          - pyarrow: 14.0.0
-            python: 3.12
+          - pyarrow: "14.0.0"
+            python: "3.12"
             image: macos-latest
     env:
       PYARROW: ${{ matrix.pyarrow }}
@@ -95,4 +99,4 @@ jobs:
         shell: bash
         run: |
           pip install pytest
-          python -m pytest -v -rs
+          python -m pytest -rs -We

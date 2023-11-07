@@ -41,7 +41,7 @@ dependencies = [
   "pytest",
 ]
 [tool.hatch.envs.default.scripts]
-test = "pytest {args:tests} -v -rs"
+test = "pytest {args:tests} -rs -We"
 
 [[tool.hatch.envs.all.matrix]]
 python = ["3.7", "3.8", "3.9", "3.10", "3.11"]
