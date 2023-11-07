@@ -9,6 +9,11 @@ PyArrow Hotfix
    :alt: pyarrow_hotfix supported Python versions
    :target: https://pypi.org/project/pyarrow-hotfix
 
+.. image:: https://github.com/pitrou/pyarrow-hotfix/actions/workflows/tests.yml/badge.svg
+   :alt: latest unit test results
+   :target: https://github.com/pitrou/pyarrow-hotfix/actions/workflows/tests.yml
+
+
 Installation
 ------------
 
