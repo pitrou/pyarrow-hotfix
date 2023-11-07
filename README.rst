@@ -12,7 +12,8 @@ PyArrow Hotfix
 Installation
 ------------
 
-::
+Use ``pip`` to install::
+
    pip install pyarrow-hotfix
 
 Usage
