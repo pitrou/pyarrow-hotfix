@@ -21,7 +21,7 @@ on: push
 
 jobs:
   tests:
-    name: PyArrow ${{ matrix.pyarrow }}, Python ${{ matrix.python }} on ${{ matrix.image || 'ubuntu-20.04' }}
+    name: PyArrow ${{ matrix.pyarrow }}, Py ${{ matrix.python }} on ${{ matrix.image || 'ubuntu-20.04' }}
     runs-on: ${{ matrix.image || 'ubuntu-20.04' }}
     timeout-minutes: 10
     strategy:
@@ -44,9 +44,15 @@ jobs:
             python: 3.11
           - pyarrow: 14.0.0
             python: 3.12
+          - pyarrow: 0.14.0
+            python: 3.5
+            image: windows-latest
           - pyarrow: 14.0.0
             python: 3.12
             image: windows-latest
+          - pyarrow: 0.14.0
+            python: 3.5
+            image: macos-latest
           - pyarrow: 14.0.0
             python: 3.12
             image: macos-latest
