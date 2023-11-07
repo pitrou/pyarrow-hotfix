@@ -6,7 +6,7 @@ def install():
     import atexit
     import pyarrow as pa
 
-    if not hasattr(pa, "PyExtensionType"):
+    if not hasattr(pa, "ExtensionType"):
         # Unsupported PyArrow version?
         return
 
@@ -33,7 +33,7 @@ def install():
     elif hasattr(pa.lib, "_unregister_py_extension_type"):
         # 0.14.1 <= PyArrow < 0.15.0
         pa.lib._unregister_py_extension_type()
-        atexit.unregister(pa.lib_unregister_py_extension_type)
+        atexit.unregister(pa.lib._unregister_py_extension_type)
     else:
         # PyArrow 0.14.0
         del pa.lib._extension_types_initializer
@@ -43,7 +43,7 @@ def uninstall():
     import atexit
     import pyarrow as pa
 
-    if not hasattr(pa, "PyExtensionType"):
+    if not hasattr(pa, "ExtensionType"):
         # Unsupported PyArrow version?
         return
 
@@ -54,8 +54,8 @@ def uninstall():
     elif hasattr(pa.lib, "_register_py_extension_type"):
         # 0.14.1 <= PyArrow < 0.15.0
         pa.lib._register_py_extension_type()
-        atexit.register(pa.lib_unregister_py_extension_type)
-    elif hasattr(pa.lib, "_extension_types_initializer"):
+        atexit.register(pa.lib._unregister_py_extension_type)
+    elif hasattr(pa.lib, "_ExtensionTypesInitializer"):
         # PyArrow 0.14.0
         pa.lib._extension_types_initializer = pa.lib._ExtensionTypesInitializer()
 
