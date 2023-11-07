@@ -10,6 +10,9 @@ def install():
         # Unsupported PyArrow version?
         return
 
+    if getattr(pa, "_hotfix_installed", False):
+        return
+
     class ForbiddenExtensionType(pa.ExtensionType):
         def __arrow_ext_serialize__(self):
             return b""
@@ -39,6 +42,8 @@ def install():
         # PyArrow 0.14.0
         del pa.lib._extension_types_initializer
 
+    pa._hotfix_installed = True
+
 
 def uninstall():
     import atexit
@@ -46,6 +51,9 @@ def uninstall():
 
     if not hasattr(pa, "ExtensionType"):
         # Unsupported PyArrow version?
+        return
+
+    if not getattr(pa, "_hotfix_installed", False):
         return
 
     if hasattr(pa, "unregister_extension_type"):
@@ -59,6 +67,8 @@ def uninstall():
     elif hasattr(pa.lib, "_ExtensionTypesInitializer"):
         # PyArrow 0.14.0
         pa.lib._extension_types_initializer = pa.lib._ExtensionTypesInitializer()
+
+    pa._hotfix_installed = False
 
 
 install()

@@ -88,3 +88,22 @@ def test_uninstall_reinstall(capsys):
     assert_hotfix_functional(capsys, read_ipc, ipc_file)
     if has_parquet_extension_support:
         assert_hotfix_functional(capsys, read_parquet, pq_file)
+
+
+def test_uninstalled_twice(capsys):
+    with uninstalled_hotfix():
+        pyarrow_hotfix.uninstall()
+        with pytest.raises(Exception):
+            read_ipc(ipc_file)
+    captured = capsys.readouterr()
+    assert captured.out.strip() == "hello world!"
+    assert captured.err == ""
+
+
+def test_reinstalled_twice(capsys):
+    with uninstalled_hotfix():
+        pass
+    pyarrow_hotfix.install()
+    assert_hotfix_functional(capsys, read_ipc, ipc_file)
+    if has_parquet_extension_support:
+        assert_hotfix_functional(capsys, read_parquet, pq_file)
