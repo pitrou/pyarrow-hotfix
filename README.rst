@@ -23,6 +23,12 @@ it to take effect::
 
    import pyarrow_hotfix
 
+Supported versions
+------------------
+
+``pyarrow-hotfix`` supports all Python versions starting from Python 3.5,
+and all PyArrow versions starting from 0.14.0.
+
 Dependencies
 ------------
 
