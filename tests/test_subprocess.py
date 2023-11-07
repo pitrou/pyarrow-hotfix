@@ -6,7 +6,9 @@ import pytest
 
 
 def assert_silent_subprocess(code):
-    proc = subprocess.run([sys.executable, "-c", code], capture_output=True)
+    proc = subprocess.run([sys.executable, "-c", code],
+                          stdout=subprocess.PIPE,
+                          stderr=subprocess.PIPE)
     assert proc.returncode == 0, proc
     assert proc.stdout == b''
     assert proc.stderr == b''
