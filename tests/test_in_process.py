@@ -9,14 +9,16 @@ import pyarrow.parquet as pq
 import pyarrow_hotfix
 
 
+pa_version = tuple(map(int, pa.__version__.split('.')))
+
 here = os.path.dirname(__file__)
 
 ipc_file = os.path.join(here, 'data.arrow')
 pq_file = os.path.join(here, 'data.pq')
 
-is_pyarrow_0_14 = pa.__version__.startswith('0.14')
+has_parquet_extension_support = pa_version >= (0, 15)
 
-has_parquet_extension_support = not is_pyarrow_0_14
+deserialization_disabled = pa_version >= (14, 0, 1)
 
 require_parquet_extension_support = pytest.mark.skipif(
     not has_parquet_extension_support,
@@ -33,7 +35,7 @@ def uninstalled_hotfix():
 
 
 def assert_hotfix_functional(capsys, func, *args, **kwargs):
-    if is_pyarrow_0_14:
+    if pa_version < (0, 15):
         table = func(*args, **kwargs)
         expected_schema = pa.schema([pa.field('ext', pa.null())])
         assert table.schema.equals(expected_schema, check_metadata=False)
@@ -44,6 +46,22 @@ def assert_hotfix_functional(capsys, func, *args, **kwargs):
     captured = capsys.readouterr()
     assert captured.out == ""
     assert captured.err == ""
+
+
+def assert_hotfix_disabled(capsys, func, *args, **kwargs):
+    if not deserialization_disabled:
+        with uninstalled_hotfix():
+            with pytest.raises(Exception):
+                func(*args, **kwargs)
+        captured = capsys.readouterr()
+        assert captured.out.strip() == "hello world!"
+        assert captured.err == ""
+    else:
+        with uninstalled_hotfix():
+            func(*args, **kwargs)
+        captured = capsys.readouterr()
+        assert captured.out.strip() == ""
+        assert captured.err == ""
 
 
 def read_ipc(ipc_file):
@@ -64,22 +82,12 @@ def test_parquet(capsys):
 
 
 def test_ipc_uninstalled(capsys):
-    with uninstalled_hotfix():
-        with pytest.raises(Exception):
-            read_ipc(ipc_file)
-    captured = capsys.readouterr()
-    assert captured.out.strip() == "hello world!"
-    assert captured.err == ""
+    assert_hotfix_disabled(capsys, read_ipc, ipc_file)
 
 
 @require_parquet_extension_support
 def test_parquet_uninstalled(capsys):
-    with uninstalled_hotfix():
-        with pytest.raises(Exception):
-            read_parquet(pq_file)
-    captured = capsys.readouterr()
-    assert captured.out.strip() == "hello world!"
-    assert captured.err == ""
+    assert_hotfix_disabled(capsys, read_parquet, pq_file)
 
 
 def test_uninstall_reinstall(capsys):
@@ -92,12 +100,7 @@ def test_uninstall_reinstall(capsys):
 
 def test_uninstalled_twice(capsys):
     with uninstalled_hotfix():
-        pyarrow_hotfix.uninstall()
-        with pytest.raises(Exception):
-            read_ipc(ipc_file)
-    captured = capsys.readouterr()
-    assert captured.out.strip() == "hello world!"
-    assert captured.err == ""
+        assert_hotfix_disabled(capsys, read_ipc, ipc_file)
 
 
 def test_reinstalled_twice(capsys):
