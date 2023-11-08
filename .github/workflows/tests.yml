@@ -28,6 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Linux
           - pyarrow: "0.14.0"
             python: "3.5"
           - pyarrow: "0.14.0"
@@ -56,16 +57,34 @@ jobs:
             python: "3.11"
           - pyarrow: "14.0.0"
             python: "3.12"
+          - pyarrow: "14.0.1"
+            python: "3.8"
+          - pyarrow: "14.0.1"
+            python: "3.12"
+          # Windows
           - pyarrow: "0.14.0"
             python: "3.5"
             image: windows-latest
           - pyarrow: "14.0.0"
             python: "3.12"
             image: windows-latest
+          - pyarrow: "14.0.1"
+            python: "3.8"
+            image: windows-latest
+          - pyarrow: "14.0.1"
+            python: "3.12"
+            image: windows-latest
+          # macOS
           - pyarrow: "0.15.0"
             python: "3.7"
             image: macos-11
           - pyarrow: "14.0.0"
+            python: "3.12"
+            image: macos-latest
+          - pyarrow: "14.0.1"
+            python: "3.8"
+            image: macos-latest
+          - pyarrow: "14.0.1"
             python: "3.12"
             image: macos-latest
     env:
