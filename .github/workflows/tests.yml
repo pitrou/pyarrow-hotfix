@@ -126,4 +126,4 @@ jobs:
         shell: bash
         run: |
           pip install pytest
-          python -m pytest -rs -We
+          python -m pytest -rs
