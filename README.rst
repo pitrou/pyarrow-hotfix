@@ -17,7 +17,7 @@ PyArrow Hotfix
 Description
 -----------
 
-This is a hotfix for the PyArrow security vulnerabilty
+This is a hotfix for the PyArrow security vulnerability
 `CVE-2023-47248 <https://www.cve.org/CVERecord?id=CVE-2023-47248>`__.
 
 We generally recommend upgrading to PyArrow 14.0.1 or later, but if you
