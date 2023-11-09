@@ -14,10 +14,21 @@ PyArrow Hotfix
    :target: https://github.com/pitrou/pyarrow-hotfix/actions/workflows/tests.yml
 
 
+Description
+-----------
+
+This is a hotfix for the PyArrow security vulnerabilty
+`CVE-2023-47248 <https://www.cve.org/CVERecord?id=CVE-2023-47248>`__.
+
+We generally recommend upgrading to PyArrow 14.0.1 or later, but if you
+cannot upgrade, this package disables the vulnerability on older versions.
+
 Installation
 ------------
 
-Use ``pip`` to install::
+Use ``pip`` to install:
+
+.. code-block:: console
 
    pip install pyarrow_hotfix
 
@@ -29,7 +40,9 @@ Usage
 -----
 
 ``pyarrow_hotfix`` must be imported in your application or library code for
-it to take effect::
+it to take effect:
+
+.. code-block:: python
 
    import pyarrow_hotfix
 
@@ -45,6 +58,31 @@ Dependencies
 ``pyarrow_hotfix`` is a pure Python package that does not have any explicit
 dependencies, and assumes you have installed ``pyarrow`` through other means
 (such as ``pip`` or ``conda``).
+
+Example
+-------
+
+.. code-block:: pycon
+
+   >>> import pyarrow as pa
+   >>> import pyarrow_hotfix
+   >>>
+   >>> pa.ipc.open_file('data.arrow')
+   Traceback (most recent call last):
+     [ ... ]
+   RuntimeError: forbidden deserialization of 'arrow.py_extension_type': storage_type = null, serialized = b"\x80\x03cbuiltins\neval\nq\x00X\x15\x00\x00\x00print('hello world!')q\x01\x85q\x02Rq\x03.", pickle disassembly:
+       0: \x80 PROTO      3
+       2: c    GLOBAL     'builtins eval'
+      17: q    BINPUT     0
+      19: X    BINUNICODE "print('hello world!')"
+      45: q    BINPUT     1
+      47: \x85 TUPLE1
+      48: q    BINPUT     2
+      50: R    REDUCE
+      51: q    BINPUT     3
+      53: .    STOP
+   highest protocol among opcodes = 2
+
 
 License
 -------
