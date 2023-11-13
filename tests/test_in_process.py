@@ -40,7 +40,7 @@ def assert_hotfix_functional(capsys, func, *args, **kwargs):
         expected_schema = pa.schema([pa.field('ext', pa.null())])
         assert table.schema.equals(expected_schema, check_metadata=False)
     else:
-        expected = "forbidden deserialization of 'arrow.py_extension_type'"
+        expected = "Disallowed deserialization of 'arrow.py_extension_type'"
         with pytest.raises(RuntimeError, match=expected):
             func(*args, **kwargs)
     captured = capsys.readouterr()
