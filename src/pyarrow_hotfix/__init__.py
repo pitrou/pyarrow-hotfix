@@ -25,7 +25,11 @@ for more details.
 
 def install():
     import atexit
-    import pyarrow as pa
+    try:
+        import pyarrow as pa
+    except ImportError:
+        # Not installed; nothing to do here.
+        return
 
     if not hasattr(pa, "ExtensionType"):
         # Unsupported PyArrow version?
@@ -70,7 +74,11 @@ def install():
 
 def uninstall():
     import atexit
-    import pyarrow as pa
+    try:
+        import pyarrow as pa
+    except ImportError:
+        # Not installed; nothing to do here.
+        return
 
     if not hasattr(pa, "ExtensionType"):
         # Unsupported PyArrow version?
