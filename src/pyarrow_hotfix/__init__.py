@@ -22,12 +22,17 @@ See https://arrow.apache.org/docs/dev/python/extending_types.html#defining-exten
 for more details.
 """
 
+try:
+    _import_error = ModuleNotFoundError
+except NameError:
+    _import_error = ImportError  # ModuleNotFoundError unavailable in py3.5
+
 
 def install():
     import atexit
     try:
         import pyarrow as pa
-    except ModuleNotFoundError:
+    except _import_error:
         # Not installed; nothing to do here.
         return
 
@@ -76,7 +81,7 @@ def uninstall():
     import atexit
     try:
         import pyarrow as pa
-    except ModuleNotFoundError:
+    except _import_error:
         # Not installed; nothing to do here.
         return
 
