@@ -22,10 +22,19 @@ See https://arrow.apache.org/docs/dev/python/extending_types.html#defining-exten
 for more details.
 """
 
+try:
+    _import_error = ModuleNotFoundError
+except NameError:
+    _import_error = ImportError  # ModuleNotFoundError unavailable in py3.5
+
 
 def install():
     import atexit
-    import pyarrow as pa
+    try:
+        import pyarrow as pa
+    except _import_error:
+        # Not installed; nothing to do here.
+        return
 
     if not hasattr(pa, "ExtensionType"):
         # Unsupported PyArrow version?
@@ -70,7 +79,11 @@ def install():
 
 def uninstall():
     import atexit
-    import pyarrow as pa
+    try:
+        import pyarrow as pa
+    except _import_error:
+        # Not installed; nothing to do here.
+        return
 
     if not hasattr(pa, "ExtensionType"):
         # Unsupported PyArrow version?

@@ -1,8 +1,5 @@
-import os
 import subprocess
 import sys
-
-import pytest
 
 
 def assert_silent_subprocess(code):
@@ -66,5 +63,14 @@ def test_import_twice():
         del sys.modules['pyarrow_hotfix']
         del pyarrow_hotfix
         import pyarrow_hotfix
+        """
+    assert_silent_subprocess(code)
+
+def test_no_pyarrow():
+    code = """if 1:
+        import sys
+        sys.modules['pyarrow'] = None  # causes ModuleNotFoundError
+        import pyarrow_hotfix
+        pyarrow_hotfix.uninstall()
         """
     assert_silent_subprocess(code)
