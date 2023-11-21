@@ -27,7 +27,7 @@ def install():
     import atexit
     try:
         import pyarrow as pa
-    except ImportError:
+    except ModuleNotFoundError:
         # Not installed; nothing to do here.
         return
 
@@ -76,7 +76,7 @@ def uninstall():
     import atexit
     try:
         import pyarrow as pa
-    except ImportError:
+    except ModuleNotFoundError:
         # Not installed; nothing to do here.
         return
 
