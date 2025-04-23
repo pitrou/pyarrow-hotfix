@@ -38,13 +38,11 @@ Source = "https://github.com/pitrou/pyarrow-hotfix"
 [tool.hatch.version]
 path = "src/pyarrow_hotfix/__about__.py"
 
-[tool.hatch.envs.default]
+[tool.hatch.envs.hatch-test]
 dependencies = [
   "pyarrow",
   "pytest",
 ]
-[tool.hatch.envs.default.scripts]
-test = "pytest {args:tests} -rs -We"
 
-[[tool.hatch.envs.all.matrix]]
+[[tool.hatch.envs.hatch-test.matrix]]
 python = ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
