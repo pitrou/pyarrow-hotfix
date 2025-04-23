@@ -21,8 +21,8 @@ on: [push, pull_request]
 
 jobs:
   tests:
-    name: PyArrow ${{ matrix.pyarrow }}, Py ${{ matrix.python }} on ${{ matrix.image || 'ubuntu-20.04' }}
-    runs-on: ${{ matrix.image || 'ubuntu-20.04' }}
+    name: PyArrow ${{ matrix.pyarrow }}, Py ${{ matrix.python }} on ${{ matrix.image || 'ubuntu-24.04' }}
+    runs-on: ${{ matrix.image || 'ubuntu-24.04' }}
     timeout-minutes: 10
     strategy:
       fail-fast: false
@@ -30,64 +30,124 @@ jobs:
         include:
           # Linux
           - pyarrow: "0.14.0"
-            python: "3.5"
-          - pyarrow: "0.14.0"
-            python: "3.6"
-          - pyarrow: "0.14.0"
             python: "3.7"
+            image: ubuntu-22.04
+            numpy: "<2.0"
           - pyarrow: "0.14.1"
             python: "3.7"
+            image: ubuntu-22.04
+            numpy: "<2.0"
           - pyarrow: "0.15.0"
             python: "3.7"
+            image: ubuntu-22.04
+            numpy: "<2.0"
           - pyarrow: "1.0.0"
             python: "3.8"
+            numpy: "<2.0"
           - pyarrow: "2.0.0"
             python: "3.8"
+            numpy: "<2.0"
           - pyarrow: "5.0.0"
             python: "3.9"
+            numpy: "<2.0"
           - pyarrow: "6.0.1"
             python: "3.9"
+            numpy: "<2.0"
           - pyarrow: "8.0.0"
             python: "3.9"
+            numpy: "<2.0"
           - pyarrow: "10.0.0"
             python: "3.10"
+            numpy: "<2.0"
           - pyarrow: "11.0.0"
             python: "3.10"
+            numpy: "<2.0"
           - pyarrow: "13.0.0"
             python: "3.11"
+            numpy: "<2.0"
           - pyarrow: "14.0.0"
             python: "3.12"
+            numpy: "<2.0"
           - pyarrow: "14.0.1"
             python: "3.8"
+            numpy: "<2.0"
           - pyarrow: "14.0.1"
             python: "3.12"
+            numpy: "<2.0"
+          - pyarrow: "14.0.2"
+            python: "3.8"
+            numpy: "<2.0"
+          - pyarrow: "14.0.2"
+            python: "3.12"
+            numpy: "<2.0"
+          - pyarrow: "15.0.2"
+            python: "3.8"
+            numpy: "<2.0"
+          - pyarrow: "15.0.2"
+            python: "3.12"
+            numpy: "<2.0"
+          - pyarrow: "16.1.0"
+            python: "3.8"
+            numpy: "<2.0"
+          - pyarrow: "16.1.0"
+            python: "3.12"
+            numpy: "<2.0"
+          - pyarrow: "17.0.0"
+            python: "3.8"
+            numpy: "<2.0"
+          - pyarrow: "17.0.0"
+            python: "3.12"
+            numpy: "<2.0"
+          - pyarrow: "18.1.0"
+            python: "3.9"
+          - pyarrow: "18.1.0"
+            python: "3.13"
+          - pyarrow: "19.0.1"
+            python: "3.9"
+          - pyarrow: "19.0.1"
+            python: "3.13"
           # Windows
           - pyarrow: "0.14.0"
-            python: "3.5"
+            python: "3.7"
             image: windows-latest
+            numpy: "<2.0"
           - pyarrow: "14.0.0"
             python: "3.12"
             image: windows-latest
+            numpy: "<2.0"
           - pyarrow: "14.0.1"
             python: "3.8"
             image: windows-latest
+            numpy: "<2.0"
           - pyarrow: "14.0.1"
             python: "3.12"
+            image: windows-latest
+            numpy: "<2.0"
+          - pyarrow: "19.0.1"
+            python: "3.13"
             image: windows-latest
           # macOS
           - pyarrow: "0.15.0"
             python: "3.7"
-            image: macos-11
+            image: macos-13
+            numpy: "<2.0"
           - pyarrow: "14.0.0"
             python: "3.12"
             image: macos-latest
+            numpy: "<2.0"
           - pyarrow: "14.0.1"
             python: "3.8"
             image: macos-latest
+            numpy: "<2.0"
           - pyarrow: "14.0.1"
             python: "3.12"
             image: macos-latest
+            numpy: "<2.0"
+          - pyarrow: "19.0.1"
+            python: "3.13"
+            image: macos-latest
     env:
+      NUMPY: ${{ matrix.numpy }}
       PYARROW: ${{ matrix.pyarrow }}
       PYTHON: ${{ matrix.python }}
     steps:
@@ -121,6 +181,9 @@ jobs:
       - name: Install PyArrow
         shell: bash
         run: |
+          if [ "${NUMPY}" ]; then
+            python -m pip install "numpy${NUMPY}"
+          fi
           python -m pip install pyarrow==${PYARROW}
       - name: Test package
         shell: bash
