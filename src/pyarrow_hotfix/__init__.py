@@ -40,6 +40,10 @@ def install():
         # Unsupported PyArrow version?
         return
 
+    if not hasattr(pa, "PyExtensionType"):
+        # 21.0.0 <= PyArrow
+        return
+
     if getattr(pa, "_hotfix_installed", False):
         return
 
@@ -62,7 +66,7 @@ def install():
             )
 
     if hasattr(pa, "unregister_extension_type"):
-        # 0.15.0 <= PyArrow
+        # 0.15.0 <= PyArrow < 21.0.0
         pa.unregister_extension_type("arrow.py_extension_type")
         pa.register_extension_type(ForbiddenExtensionType(pa.null(),
                                                           "arrow.py_extension_type"))
@@ -89,11 +93,15 @@ def uninstall():
         # Unsupported PyArrow version?
         return
 
+    if not hasattr(pa, "PyExtensionType"):
+        # 21.0.0 <= PyArrow
+        return
+
     if not getattr(pa, "_hotfix_installed", False):
         return
 
     if hasattr(pa, "unregister_extension_type"):
-        # 0.15.0 <= PyArrow
+        # 0.15.0 <= PyArrow < 21.0.0
         pa.unregister_extension_type("arrow.py_extension_type")
         pa.lib._register_py_extension_type()
     elif hasattr(pa.lib, "_register_py_extension_type"):
