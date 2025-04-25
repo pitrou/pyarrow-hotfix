@@ -35,7 +35,7 @@ def uninstalled_hotfix():
 
 
 def assert_hotfix_functional(capsys, func, *args, **kwargs):
-    if pa_version < (0, 15):
+    if pa_version < (0, 15) or pa_version >= (21, 0):
         table = func(*args, **kwargs)
         expected_schema = pa.schema([pa.field('ext', pa.null())])
         assert table.schema.equals(expected_schema, check_metadata=False)
